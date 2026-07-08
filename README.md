@@ -1,1 +1,0 @@
-# icon-tshirt-vote
