@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Design Voting System</title>
+<title>Icon T-Shirt Voting</title>
 <style>
   :root {
     --night-blue: #03506F;
@@ -37,7 +37,6 @@
     gap: 12px;
   }
   .header-bar h1 {
-    font-family: 'Outfit', serif;
     font-size: 24px;
     margin: 0 0 4px 0;
     letter-spacing: 0.3px;
@@ -46,12 +45,6 @@
     margin: 0;
     font-size: 14px;
     opacity: 0.92;
-  }
-  .icon-logo-img {
-    height: 28px;
-    width: auto;
-    display: block;
-    margin-bottom: 6px;
   }
   .instructions {
     background: #F4FAFC;
@@ -64,33 +57,30 @@
   }
   .instructions b { color: var(--night-blue); }
   
-  /* Container now accurately wraps the slots */
-  .rank-tray {
+  .selection-tray {
     display: flex;
-    gap: 12px;
     margin-bottom: 24px;
-    flex-wrap: wrap;
-    width: 100%;
   }
-  .rank-slot {
+  .selection-slot {
     flex: 1;
-    min-width: 140px;
     border: 2px dashed #cfe6ee;
     border-radius: 10px;
-    padding: 10px;
+    padding: 12px;
     text-align: center;
     background: #fbfefe;
     position: relative;
-    min-height: 90px;
+    min-height: 110px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    transition: all 0.2s ease;
   }
-  .rank-slot.filled {
+  .selection-slot.filled {
     border-style: solid;
+    border-color: var(--morning-blue);
   }
-  .rank-slot .rank-label {
+  .selection-slot .slot-label {
     position: absolute;
     top: -10px;
     left: 10px;
@@ -100,25 +90,22 @@
     font-weight: bold;
     padding: 2px 8px;
     border-radius: 10px;
+    letter-spacing: 0.5px;
   }
-  .rank-slot[data-rank="1"] { border-color: var(--sun-yellow); }
-  .rank-slot[data-rank="1"] .rank-label { background: #B8940A; }
-  .rank-slot[data-rank="2"] { border-color: var(--morning-blue); }
-  .rank-slot[data-rank="3"] { border-color: var(--night-blue); }
-  .rank-slot img {
+  .selection-slot img {
     max-width: 100%;
-    max-height: 70px;
+    max-height: 90px;
     object-fit: contain;
     border-radius: 6px;
   }
-  .rank-slot .empty-text {
-    font-size: 12px;
+  .selection-slot .empty-text {
+    font-size: 13px;
     color: #9db4bd;
   }
   .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 14px;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 16px;
     margin-bottom: 26px;
   }
   .card {
@@ -136,34 +123,34 @@
     border-color: var(--morning-blue);
   }
   .card.selected {
-    border-color: var(--sun-yellow);
-    box-shadow: 0 0 0 3px rgba(255,222,0,0.35);
+    border-color: var(--morning-blue);
+    box-shadow: 0 0 0 3px rgba(5,178,232,0.25);
   }
   .card img {
     width: 100%;
-    height: 150px;
+    height: 190px;
     object-fit: cover;
     display: block;
   }
   .card .label {
     text-align: center;
-    font-size: 12px;
-    padding: 6px 4px;
+    font-size: 13px;
+    padding: 8px 4px;
     font-weight: 600;
     color: var(--night-blue);
     background: #fafdfe;
   }
   .card .badge {
     position: absolute;
-    top: 6px;
-    right: 6px;
+    top: 8px;
+    right: 8px;
     width: 26px;
     height: 26px;
     border-radius: 50%;
-    background: var(--sun-yellow);
-    color: var(--night-blue);
+    background: var(--morning-blue);
+    color: var(--white);
     font-weight: bold;
-    font-size: 13px;
+    font-size: 14px;
     display: none;
     align-items: center;
     justify-content: center;
@@ -221,9 +208,10 @@
     font-size: 14px;
     padding: 10px 14px;
     border-radius: 8px;
+    display: none;
   }
-  .status-msg.success { background: #eafaf0; color: #1a7a45; }
-  .status-msg.error { background: #fdecea; color: #b3261e; }
+  .status-msg.success { background: #eafaf0; color: #1a7a45; display: block; }
+  .status-msg.error { background: #fdecea; color: #b3261e; display: block; }
   .divider {
     height: 1px;
     background: #e7f2f5;
@@ -238,7 +226,6 @@
     gap: 10px;
   }
   .results-header h2 {
-    font-family: 'Outfit', serif;
     font-size: 19px;
     color: var(--night-blue);
     margin: 0;
@@ -270,7 +257,7 @@
     border-radius: 6px;
     flex-shrink: 0;
   }
-  .result-row .rname { font-size: 13px; font-weight: 600; width: 90px; flex-shrink: 0; }
+  .result-row .rname { font-size: 13px; font-weight: 600; width: 100px; flex-shrink: 0; }
   .bar-track {
     flex: 1;
     background: #eef6f8;
@@ -281,7 +268,7 @@
   }
   .bar-fill {
     height: 100%;
-    background: linear-gradient(90deg, var(--sun-yellow), var(--morning-blue));
+    background: linear-gradient(90deg, var(--morning-blue), var(--night-blue));
     border-radius: 6px;
     transition: width 0.4s ease;
   }
@@ -309,32 +296,247 @@
 <div class="icon-vote-root">
   <div class="header-bar">
     <div>
-      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAACFCAYAAAB1065Q..." class="icon-logo-img" alt="Logo" />
-      <h1>T-Shirt Design Vote</h1>
-      <p>Rank your favorite corporate layout options</p>
+      <h1>T-Shirt Design Selection</h1>
+      <p>Cast your vote for your favorite design option</p>
     </div>
   </div>
 
   <div class="instructions">
-    <b>How to Vote:</b> Click on your preferred design alternatives from the catalog below to lock in your selections.
+    Browse the choices below and select your <b>single favorite design</b>. Once selected, fill in your name and submit your choice.
   </div>
 
-  <div class="rank-tray">
-    <div class="rank-slot" data-rank="1">
-      <div class="rank-label">1ST CHOICE</div>
-      <div class="empty-text">Click a design below</div>
-    </div>
-    <div class="rank-slot" data-rank="2">
-      <div class="rank-label">2ND CHOICE</div>
-      <div class="empty-text">Click a design below</div>
-    </div>
-    <div class="rank-slot" data-rank="3">
-      <div class="rank-label">3RD CHOICE</div>
-      <div class="empty-text">Click a design below</div>
+  <div class="selection-tray">
+    <div class="selection-slot" id="selected-slot">
+      <div class="slot-label">YOUR CHOICE</div>
+      <div id="slot-body"><span class="empty-text">No design selected yet</span></div>
     </div>
   </div>
 
+  <div class="grid" id="designs-grid"></div>
+
+  <div class="name-row">
+    <input type="text" id="voter-name" placeholder="Enter your full name to submit" autocomplete="off" />
+    <button class="submit-btn" id="btn-submit" disabled>Submit Vote</button>
+    <button class="reset-btn" id="btn-reset">Reset Choice</button>
   </div>
+
+  <div class="status-msg" id="status-box"></div>
+
+  <div class="divider"></div>
+
+  <div class="results-header">
+    <div>
+      <h2>Current Standings</h2>
+      <div class="voter-count" id="voter-total-msg">0 votes calculated</div>
+    </div>
+    <button class="refresh-btn" id="btn-refresh">Refresh Results</button>
+  </div>
+
+  <div class="results-list" id="results-display-list"></div>
+  <div class="privacy-note">All records are kept safe inside your environment space.</div>
+</div>
+
+<script>
+  // Storage Framework Pipeline
+  const storageEngine = window.storage || {
+    get: async function(key, fallbackJSON) {
+      const val = localStorage.getItem(key);
+      if(!val) return null;
+      return fallbackJSON ? { value: val } : val;
+    },
+    set: async function(key, value) {
+      localStorage.setItem(key, typeof value === 'string' ? value : JSON.stringify(value));
+      return true;
+    },
+    keys: async function() {
+      return Object.keys(localStorage);
+    }
+  };
+
+  const STORAGE_PREFIX = "tshirt_vote_single_";
+  
+  // Array of your 10 uploaded image paths
+  const designIds = ['d1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8', 'd9', 'd10'];
+  
+  const DESIGN_IMAGES = {
+    d1: 'Free_T-Shirt_Mannequin_Mockup_1.jpg',
+    d2: 'Free_T-Shirt_Mannequin_Mockup_2.jpg',
+    d3: 'Free_T-Shirt_Mannequin_Mockup_3.jpg',
+    d4: 'Free_T-Shirt_Mannequin_Mockup_4.jpg',
+    d5: 'Free_T-Shirt_Mannequin_Mockup_5.jpg',
+    d6: 'Free_T-Shirt_Mannequin_Mockup_6.jpg',
+    d7: 'Free_T-Shirt_Mannequin_Mockup_7.jpg',
+    d8: 'Free_T-Shirt_Mannequin_Mockup_8.jpg',
+    d9: 'Free_T-Shirt_Mannequin_Mockup_9.jpg',
+    d10: 'Free_T-Shirt_Mannequin_Mockup_10.jpg'
+  };
+
+  let selectedDesign = null; // Holds the single selected design ID string
+
+  const gridEl = document.getElementById('designs-grid');
+  const nameInput = document.getElementById('voter-name');
+  const submitBtn = document.getElementById('btn-submit');
+  const resetBtn = document.getElementById('btn-reset');
+  const refreshBtn = document.getElementById('btn-refresh');
+  const statusEl = document.getElementById('status-box');
+  const countEl = document.getElementById('voter-total-msg');
+  const listEl = document.getElementById('results-display-list');
+
+  // Build the 10 item layout grid
+  function buildGrid() {
+    gridEl.innerHTML = '';
+    designIds.forEach((id, idx) => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.id = `card-${id}`;
+      card.innerHTML = `
+        <div class="badge" id="badge-${id}">✓</div>
+        <img src="${DESIGN_IMAGES[id]}" alt="Design Option ${idx + 1}" />
+        <div class="label">Design Option ${idx + 1}</div>
+      `;
+      card.addEventListener('click', () => selectDesignOption(id));
+      gridEl.appendChild(card);
+    });
+  }
+
+  function selectDesignOption(id) {
+    if (selectedDesign === id) {
+      selectedDesign = null; // Toggle off if clicked again
+    } else {
+      selectedDesign = id; // Set as the single chosen layout
+    }
+    updateUIStates();
+  }
+
+  function updateUIStates() {
+    // Reset all cards cleanly
+    designIds.forEach(id => {
+      const card = document.getElementById(`card-${id}`);
+      const badge = document.getElementById(`badge-${id}`);
+      card.classList.remove('selected');
+      badge.style.display = 'none';
+    });
+
+    const slotBody = document.getElementById('slot-body');
+    const slotParent = document.getElementById('selected-slot');
+
+    if (selectedDesign) {
+      slotBody.innerHTML = `<img src="${DESIGN_IMAGES[selectedDesign]}" />`;
+      slotParent.classList.add('filled');
+      
+      // Update selected grid item
+      const card = document.getElementById(`card-${selectedDesign}`);
+      const badge = document.getElementById(`badge-${selectedDesign}`);
+      card.classList.add('selected');
+      badge.style.display = 'flex';
+    } else {
+      slotBody.innerHTML = `<span class="empty-text">No design selected yet</span>`;
+      slotParent.classList.remove('filled');
+    }
+    validateForm();
+  }
+
+  function validateForm() {
+    const nameValid = nameInput.value.trim().length > 1;
+    const selectionValid = selectedDesign !== null;
+    submitBtn.disabled = !(nameValid && selectionValid);
+  }
+
+  function showStatus(text, type) {
+    statusEl.className = `status-msg ${type}`;
+    statusEl.textContent = text;
+    statusEl.style.display = 'block';
+    if(type === 'success') setTimeout(() => { statusEl.style.display = 'none'; }, 5000);
+  }
+
+  function resetChoices() {
+    selectedDesign = null;
+    nameInput.value = '';
+    updateUIStates();
+    statusEl.style.display = 'none';
+  }
+
+  // Handle direct storage logging
+  async function submitVotes() {
+    const name = nameInput.value.trim();
+    if (!name || !selectedDesign) return;
+
+    submitBtn.disabled = true;
+    const recordKey = `${STORAGE_PREFIX}${Date.now()}_${Math.random().toString(36).substr(2, 5)}`;
+    
+    const payload = {
+      voter: name,
+      choice: selectedDesign 
+    };
+
+    try {
+      await storageEngine.set(recordKey, JSON.stringify(payload));
+      showStatus("Thank you! Your vote has been submitted successfully.", "success");
+      resetChoices();
+      await updateResultsUI();
+    } catch(err) {
+      showStatus("Submission error: Could not commit data to engine storage layer.", "error");
+      submitBtn.disabled = false;
+    }
+  }
+
+  // Aggregate results totals dynamically
+  async function updateResultsUI() {
+    const counts = {};
+    designIds.forEach(id => counts[id] = 0);
+    let voterTotal = 0;
+
+    try {
+      const keys = await storageEngine.keys();
+      for (const key of keys) {
+        if (!key.startsWith(STORAGE_PREFIX)) continue;
+        
+        const entry = await storageEngine.get(key, true);
+        if (!entry || !entry.value) continue;
+        
+        const parsed = JSON.parse(entry.value);
+        if (parsed.choice && parsed.choice in counts) {
+          voterTotal += 1;
+          counts[parsed.choice] += 1;
+        }
+      }
+    } catch(e) {
+      console.error("Aggregation lookup error:", e);
+    }
+
+    countEl.textContent = voterTotal + (voterTotal === 1 ? ' vote cast' : ' votes cast');
+    
+    const ranked = designIds
+      .map((id, idx) => ({ id, originalIdx: idx, count: counts[id] }))
+      .sort((a, b) => b.count - a.count);
+
+    const maxVotes = Math.max(1, ...ranked.map(r => r.count));
+    listEl.innerHTML = '';
+
+    ranked.forEach(r => {
+      const row = document.createElement('div');
+      row.className = 'result-row';
+      const pct = (r.count / maxVotes) * 100;
+      row.innerHTML = `
+        <img src="${DESIGN_IMAGES[r.id]}" />
+        <div class="rname">Design Option ${r.originalIdx + 1}</div>
+        <div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div>
+        <div class="score-num">${r.count} ${r.count === 1 ? 'vote' : 'votes'}</div>
+      `;
+      listEl.appendChild(row);
+    });
+  }
+
+  nameInput.addEventListener('input', validateForm);
+  submitBtn.addEventListener('click', submitVotes);
+  resetBtn.addEventListener('click', resetChoices);
+  refreshBtn.addEventListener('click', updateResultsUI);
+
+  // Run on startup
+  buildGrid();
+  updateUIStates();
+  updateResultsUI();
+</script>
 
 </body>
 </html>
